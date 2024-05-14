@@ -949,7 +949,9 @@ static bool blinker_va_parse(cJSON *data, const blinker_va_data_t *va)
                         if (cJSON_HasObjectItem(set_data, BLINKER_CMD_NUM)) {
                             param_val.num = cJSON_GetObjectItem(set_data, BLINKER_CMD_NUM)->valueint;
                         }
-                        va->cb(&param_val);
+                        if (va->cb) {
+                            va->cb(&param_val);
+                        }
                         break;
 
                     case BLINKER_PARAM_MODE_STATE:
@@ -964,7 +966,9 @@ static bool blinker_va_parse(cJSON *data, const blinker_va_data_t *va)
                                 param_val.state = param_set->valuestring;
                             }
                         }
-                        va->cb(&param_val);
+                        if (va->cb) {
+                            va->cb(&param_val);
+                        }
                         break;
                     
                     default:
@@ -977,7 +981,9 @@ static bool blinker_va_parse(cJSON *data, const blinker_va_data_t *va)
                                 param_val.i = param_set->valueint;
                             }
                         }
-                        va->cb(&param_val);
+                        if (va->cb) {
+                            va->cb(&param_val);
+                        }
                         break;
                 }
                 
