@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := blinker_example
+PROJECT_NAME := blinker_light
 
 include $(IDF_PATH)/make/project.mk
 

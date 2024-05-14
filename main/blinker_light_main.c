@@ -35,8 +35,8 @@
 
 static const char *TAG = "blinker";
 
-#define BUTTON_1    "btn-abc"
-#define NUM_1       "num-abc"
+#define BUTTON_1    "btn-open"
+#define NUM_1       "num-open"
 
 static int count = 0;
 
