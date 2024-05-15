@@ -1,0 +1,15 @@
+menu "My_Blinker Config"
+
+    config WS2813_RMT_TX_GPIO
+        int "RMT TX GPIO for ws2813"
+        default 13
+        help
+            Set the GPIO number used for transmitting the RMT signal.
+
+    config WS2813_STRIP_LED_NUMBER
+        int "Number of LEDS in a strip"
+        default 17
+        help
+            A single RGB strip contains serval LEDs.
+
+endmenu

@@ -133,6 +133,13 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
+# My_Blinker Config
+#
+CONFIG_WS2813_RMT_TX_GPIO=13
+CONFIG_WS2813_STRIP_LED_NUMBER=17
+# end of My_Blinker Config
+
+#
 # Blinker Config
 #
 
