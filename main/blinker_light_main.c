@@ -33,7 +33,7 @@
 
 #include "blinker_api.h"
 
-static const char *TAG = "blinker";
+static const char *TAG = "my_blinker";
 
 #define BUTTON_1    "btn-open"
 #define NUM_1       "num-open"
@@ -64,10 +64,16 @@ static void data_callback(const char *data)
     ESP_LOGI(TAG, "data: %s", data);
 }
 
+static void miot_callback(const blinker_va_param_cb_t *val)
+{
+    ESP_LOGI(TAG, "miot type: %d", val->type);
+}
+
 void app_main()
 {
     blinker_init();
 
     blinker_widget_add(BUTTON_1, BLINKER_BUTTON, button1_callback);
     blinker_data_handler(data_callback);
+    blinker_miot_handler_register(miot_callback);
 }
