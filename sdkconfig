@@ -178,16 +178,14 @@ CONFIG_BLINKER_MIOT_TYPE="&miType=light"
 #
 # Blinker Provisioning Config
 #
-CONFIG_BLINKER_DEFAULT_CONFIG=y
-# CONFIG_BLINKER_SMART_CONFIG is not set
+# CONFIG_BLINKER_DEFAULT_CONFIG is not set
+CONFIG_BLINKER_SMART_CONFIG=y
 # CONFIG_BLINKER_AP_CONFIG is not set
-
-#
-# Blinker Default Config
-#
-CONFIG_BLINKER_WIFI_SSID="Redmi K50"
-CONFIG_BLINKER_WIFI_PASSWORD="12345678"
-# end of Blinker Default Config
+CONFIG_ESP_TOUCH=y
+# CONFIG_AIRKISS is not set
+# CONFIG_ESP_TOUCH-AIRKISS is not set
+# CONFIG_ESP_TOUCH_V2 is not set
+CONFIG_BLINKER_PROV_SMARTCONFIG_TYPE=0
 # end of Blinker Provisioning Config
 
 #
