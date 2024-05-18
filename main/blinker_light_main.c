@@ -145,11 +145,44 @@ void button_close_callback(const blinker_widget_param_val_t *val)
 static void data_callback(const char *data)
 {
     ESP_LOGI(TAG, "data: %s", data);
+    cJSON *info = cJSON_Parse(data);
+    if (info == NULL) {
+        cJSON_Delete(info);
+        return;
+    }
+    if (cJSON_HasObjectItem(info, BLINKER_CMD_BRIGHTNESS)) {
+        led_info.brightness = cJSON_GetObjectItem(info, BLINKER_CMD_BRIGHTNESS)->valueint;
+        led_refresh = true;
+    }
+    cJSON_Delete(info);
 }
 
 static void miot_callback(const blinker_va_param_cb_t *val)
 {
     ESP_LOGI(TAG, "miot type: %d", val->type);
+    cJSON *state_param = cJSON_CreateObject();
+    switch (val->type)
+    {
+    case BLINKER_PARAM_POWER_STATE:
+        if (!val->s) {
+            break;
+        }
+        if (!strcmp(val->s, BLINKER_CMD_ON)) {
+            set_led_effect(LED_EFFECT_ALWAYS_ON_WHITE, true);
+            blinker_miot_power_state(state_param, "on");
+        } else if (!strcmp(val->s, BLINKER_CMD_OFF)) {
+            led_status = LED_OFF;
+            blinker_miot_power_state(state_param, "off");
+        } else {
+            blinker_miot_power_state(state_param, val->s);
+        }
+        blinker_miot_print(state_param);
+        break;
+
+    default:
+        break;
+    }
+    cJSON_Delete(state_param);
 }
 
 void app_main()

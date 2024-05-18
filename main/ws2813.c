@@ -12,6 +12,7 @@ static const char *TAG = "LED_STRIP";
 led_status_t led_status = LED_OFF;
 led_effect_t led_effect = LED_EFFECT_ALWAYS_ON;
 led_info_t led_info = {LED_COLOR_WHITE_WARM, 100};
+bool led_refresh = 0;
 bool flag_circle = 0;
 
 #define RMT_TX_CHANNEL RMT_CHANNEL_0
@@ -187,23 +188,31 @@ void led_effect_breathe(led_strip_t *strip)
 
 void led_effect_always_on(led_strip_t *strip, uint32_t color)
 {
-    uint32_t red = (color >> 16) & 0xFF;
-    uint32_t green = (color >> 8) & 0xFF;;
-    uint32_t blue = color & 0xFF;
-    red = red * led_info.brightness / 100;
-    green = green * led_info.brightness / 100;
-    blue = blue * led_info.brightness / 100;
-
-    ESP_LOGI(TAG, "LED always on with color: 0x%06x", color);
-    for (int i = 0; i < LED_NUMBER; i++) {
-        if (flag_circle && (i == 0 || i == 2 || i == 14 || i == 16))
+    led_refresh = true;
+    while (led_status == LED_ON) {
+        if (!led_refresh) {
+            vTaskDelay(100 / portTICK_RATE_MS);
             continue;
-        ESP_ERROR_CHECK(strip->set_pixel(strip, i, red, green, blue));
-    }
-    ESP_ERROR_CHECK(strip->refresh(strip, 100));
+        }
+        uint32_t red = (color >> 16) & 0xFF;
+        uint32_t green = (color >> 8) & 0xFF;;
+        uint32_t blue = color & 0xFF;
 
-    while(led_status == LED_ON)
-        vTaskDelay(100 / portTICK_RATE_MS);
+        red = red * led_info.brightness / 100;
+        green = green * led_info.brightness / 100;
+        blue = blue * led_info.brightness / 100;
+
+        ESP_LOGI(TAG, "LED always on with color: 0x%06x", color);
+        for (int i = 0; i < LED_NUMBER; i++) {
+            if (flag_circle && (i == 0 || i == 2 || i == 14 || i == 16))
+                continue;
+            ESP_ERROR_CHECK(strip->set_pixel(strip, i, red, green, blue));
+        }
+        ESP_ERROR_CHECK(strip->refresh(strip, 100));
+        led_refresh = false;
+    }
+
+    ESP_LOGI(TAG, "alway_on exit.");
 }
 
 /* 

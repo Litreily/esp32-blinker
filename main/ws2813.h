@@ -48,6 +48,7 @@ typedef struct {
 extern led_status_t led_status;
 extern led_effect_t led_effect;
 extern led_info_t led_info;
+extern bool led_refresh;
 extern bool flag_circle;
 
 led_strip_t * led_ws2813_init(void);
